@@ -11,7 +11,7 @@ REDIRECT_URI = "https://your-streamlit-app-url.com"  # Update with your actual S
 genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])  # Securely store API Key in secrets
 
 # --- META OAUTH LOGIN URL ---
-auth_url = f"https://www.facebook.com/v18.0/dialog/oauth?client_id={635139208950350}&redirect_uri={urllib.parse.quote(https://1socialexp.streamlit.app/)}&scope=pages_manage_posts,pages_read_engagement,instagram_basic,instagram_content_publish"
+auth_url = f"https://www.facebook.com/v18.0/dialog/oauth?client_id={635139208950350}&redirect_uri={urllib.parse.quote(https://1socialexp.streamlit.app)}&scope=pages_manage_posts,pages_read_engagement,instagram_basic,instagram_content_publish"
 
 # --- STREAMLIT UI ---
 st.title("Ever AI - Social Media Auto-Poster")
