@@ -4,8 +4,8 @@ import google.generativeai as genai
 import urllib.parse
 
 # --- CONFIGURE THREADS & GOOGLE GEMINI --- 
-THREADS_APP_ID = "your_threads_app_id"  # Replace with your Threads App ID
-THREADS_APP_SECRET = "your_threads_app_secret"  # Replace with your Threads App Secret
+THREADS_APP_ID = st.secrets["THREADS_APP_ID"]  # Securely retrieve Threads App ID from Streamlit secrets
+THREADS_APP_SECRET = st.secrets["THREADS_APP_SECRET"]  # Securely retrieve Threads App Secret
 REDIRECT_URI = "https://your-streamlit-app-url.com"  # Update with your actual Streamlit URL
 
 genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])  # Securely store API Key in secrets
@@ -37,7 +37,9 @@ if "code" in st.query_params:
 
 # --- GENERATE AI CONTENT ---
 prompt = st.text_input("Enter a prompt for AI content:", "Best alternatives to JavaScript?")
-if st.button("Generate AI Content"):
+generate_button = st.button("Generate AI Content")
+
+if generate_button:
     try:
         model = genai.GenerativeModel("gemini-1.5-flash")
         response = model.generate_content(prompt)
@@ -47,17 +49,24 @@ if st.button("Generate AI Content"):
     except Exception as e:
         st.error(f"❌ Error: {e}")
 
-# --- POST TO THREADS ---
-if "access_token" in st.session_state and "generated_content" in st.session_state:
-    if st.button("📢 Post to Threads"):
-        post_url = "https://api.threads.com/v1/posts"  # Adjusted for Threads API endpoint
-        post_payload = {
-            "message": st.session_state["generated_content"],
-            "access_token": st.session_state["access_token"]
-        }
+# --- ENABLE POST BUTTON AFTER CONTENT IS GENERATED ---
+if "generated_content" in st.session_state:
+    post_button = st.button("📢 Post to Threads")
+    
+    # --- POST TO THREADS ---
+    if post_button:
+        if "access_token" in st.session_state:
+            post_url = "https://api.threads.com/v1/posts"  # Adjusted for Threads API endpoint
+            post_payload = {
+                "message": st.session_state["generated_content"],
+                "access_token": st.session_state["access_token"]
+            }
 
-        post_response = requests.post(post_url, json=post_payload)
-        if post_response.status_code == 200:
-            st.success("✅ Successfully posted to Threads!")
+            post_response = requests.post(post_url, json=post_payload)
+            if post_response.status_code == 200:
+                st.success("✅ Successfully posted to Threads!")
+            else:
+                st.error(f"❌ Error: {post_response.text}")
         else:
-            st.error(f"❌ Error: {post_response.text}")
+            st.error("❌ Please log in to Threads first.")
+
