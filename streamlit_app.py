@@ -8,7 +8,7 @@ THREADS_APP_ID = "your_threads_app_id"  # Replace with your Threads App ID
 THREADS_APP_SECRET = "your_threads_app_secret"  # Replace with your Threads App Secret
 REDIRECT_URI = "https://your-streamlit-app-url.com"  # Update with your actual Streamlit URL
 
-genai.configure(api_key=st.secrets["GOOGLE_API_KEY"])  # Securely store API Key in secrets
+genai.configure(api_key=st.secrets["google"]["GOOGLE_API_KEY"])  # Securely store API Key in secrets
 
 # --- THREADS OAUTH LOGIN URL ---
 auth_url = f"https://www.threads.com/oauth/authorize?client_id={THREADS_APP_ID}&redirect_uri={urllib.parse.quote(REDIRECT_URI)}&scope=read_write"  # Assuming 'read_write' is the required scope
@@ -39,7 +39,7 @@ if "code" in st.query_params:
 prompt = st.text_input("Enter a prompt for AI content:", "Best alternatives to JavaScript?")
 if st.button("Generate AI Content"):
     try:
-        model = genai.GenerativeModel("gemini-1.5-flash")
+        model = genai.GenerativeModel("gemini-1.5-flash")  # You can use the appropriate model here
         response = model.generate_content(prompt)
         st.session_state["generated_content"] = response.text
         st.write("### 📝 AI-Generated Content:")
@@ -50,7 +50,7 @@ if st.button("Generate AI Content"):
 # --- POST TO THREADS ---
 if "access_token" in st.session_state and "generated_content" in st.session_state:
     if st.button("📢 Post to Threads"):
-        post_url = "https://api.threads.com/v1/posts"  # Adjusted for Threads API endpoint
+        post_url = "https://api.threads.com/v1/posts"  # Adjusted for Threads API endpoint (verify the endpoint)
         post_payload = {
             "message": st.session_state["generated_content"],
             "access_token": st.session_state["access_token"]
