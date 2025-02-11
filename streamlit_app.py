@@ -8,7 +8,7 @@ THREADS_APP_ID = "your_threads_app_id"  # Replace with your Threads App ID
 THREADS_APP_SECRET = "your_threads_app_secret"  # Replace with your Threads App Secret
 REDIRECT_URI = "https://your-streamlit-app-url.com"  # Update with your actual Streamlit URL
 
-genai.configure(api_key=st.secrets["google"]["GOOGLE_API_KEY"])  # Securely store API Key in secrets
+genai.configure(api_key=st.secrets(["GOOGLE_API_KEY"])  # Securely store API Key in secrets
 
 # --- THREADS OAUTH LOGIN URL ---
 auth_url = f"https://www.threads.com/oauth/authorize?client_id={THREADS_APP_ID}&redirect_uri={urllib.parse.quote(REDIRECT_URI)}&scope=read_write"  # Assuming 'read_write' is the required scope
