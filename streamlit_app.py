@@ -3,16 +3,15 @@ import requests
 import google.generativeai as genai
 import urllib.parse
 
-# --- CONFIGURE THREADS & GOOGLE GEMINI --- 
-THREADS_APP_ID = "your_threads_app_id"  # Replace with your Threads App ID
-THREADS_APP_SECRET = "your_threads_app_secret"  # Replace with your Threads App Secret
-REDIRECT_URI = "https://your-streamlit-app-url.com"  # Update with your actual Streamlit URL
+# --- CONFIGURE THREADS & GOOGLE GEMINI ---
+THREADS_APP_ID = st.secrets["threads"]["THREADS_APP_ID"]  # Access Threads App ID from secrets
+THREADS_APP_SECRET = st.secrets["threads"]["THREADS_APP_SECRET"]  # Access Threads App Secret from secrets
+REDIRECT_URI = st.secrets["threads"]["REDIRECT_URI"]  # Access Redirect URI from secrets
 
-genai.configure(api_key=st.secrets["google"]["GOOGLE_API_KEY"])  # Securely store API Key in secrets
+genai.configure(api_key=st.secrets["google"]["GOOGLE_API_KEY"])  # Securely configure Google API key from secrets
 
 # --- THREADS OAUTH LOGIN URL ---
-auth_url = f"https://www.threads.com/oauth/authorize?client_id={635139208950350}&redirect_uri={urllib.parse.quote('https://1socialexp.streamlit.app')}&scope=read_write"  # Update the URL correctly
-
+auth_url = f"https://www.threads.com/oauth/authorize?client_id={THREADS_APP_ID}&redirect_uri={urllib.parse.quote(REDIRECT_URI)}&scope=threads_content_publish"
 
 # --- STREAMLIT UI ---
 st.title("Ever AI - Social Media Auto-Poster")
