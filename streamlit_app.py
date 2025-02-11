@@ -11,7 +11,7 @@ REDIRECT_URI = "https://your-streamlit-app-url.com"  # Update with your actual S
 genai.configure(api_key=st.secrets["google"]["GOOGLE_API_KEY"])  # Securely store API Key in secrets
 
 # --- THREADS OAUTH LOGIN URL ---
-auth_url = f"https://www.threads.com/oauth/authorize?client_id={635139208950350}&redirect_uri={urllib.parse.quote(https://1socialexp.streamlit.app/)}&scope=read_write"  # Assuming 'read_write' is the required scope
+auth_url = f"https://www.threads.com/oauth/authorize?client_id={635139208950350}&redirect_uri={urllib.parse.quote(https://1socialexp.streamlit.app)}&scope=read_write"  # Assuming 'read_write' is the required scope
 
 # --- STREAMLIT UI ---
 st.title("Ever AI - Social Media Auto-Poster")
